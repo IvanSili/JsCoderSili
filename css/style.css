@@ -1,0 +1,31 @@
+@charset "UTF-8";
+
+/*Reset*/
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.Titulo {
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+h1 {
+    font-family: "Poppins", sans-serif;
+    background-color: #D7FC57;
+    margin: 20px;
+    border-radius: 5px;
+}
+
+hr {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.Nombre {
+    font-family: "Poppins", sans-serif;
+    margin-left: 20px;
+}
