@@ -48,8 +48,8 @@ do {
         seleccionPizza += "Para finalizar, presione Y.";
 
         let respuesta = prompt(seleccionPizza);
-        //solucion que encontre para que cuando apreten enter en un prompt vacio no me cierre el bucle.
-        if (respuesta == false) {
+        //solucion que encontre para que cuando apreten enter en un prompt vacio o en un numero mayor a 10 no me cierre el bucle.
+        if (respuesta == false || respuesta > 10) {
             alert("Por favor, seleccione una opción válida.");
             continue;
         }
