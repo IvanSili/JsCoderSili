@@ -1,31 +1,108 @@
-@charset "UTF-8";
-
 /*Reset*/
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family:sans-serif;
+    font-size: 18px;
 }
 
-.Titulo {
+/* ------Header------ */
+
+header {
+    background-color: #2e010295;
+    height: 80;
+    width: 70%;
+    border-radius: 5px;
+    margin: 30px 0px;
     display: flex;
-    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px;
+
+}
+
+.logo {
+    height: 120px;
+    width: 120px;
+    border-radius: 100%;
+}
+
+.carrito {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #EFD4B6;
+    padding: 7px 10px;
+    border-radius: 5px;
+    width: 80px;
+}
+
+.carrito img {
+    height: 30px;
+    width: 30px;
+}
+
+.carrito p {
+    width: 22px;
+    height: 22px;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+}
+
+/*------BODY------*/
+
+body {
+    background-image: url(../media/fondo.png);
+        display:flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+    
+}
+
+.productos {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 50px;
+    margin: 40px;
+}
+
+.card {
+    background-color: #2e010295;
+    display: flex;
     height: 100%;
 }
 
-h1 {
-    font-family: "Poppins", sans-serif;
-    background-color: #D7FC57;
-    margin: 20px;
-    border-radius: 5px;
+.card-title {
+    color: #fafafa;
+}
+.card-text {
+    color: #fafafa;
 }
 
-hr {
-    margin-left: 20px;
-    margin-right: 20px;
+.btn {
+    background-color: #fafafa;
+    color: black;
+    border-color: black;
 }
 
-.Nombre {
-    font-family: "Poppins", sans-serif;
-    margin-left: 20px;
+.btn:hover {
+    background-color: black;
+    color: #fafafa;
+    border-color: #fafafa;
+}
+
+aside {
+    color: #fafafa;
+    background-color: rgba(50, 50, 50, 0.574);
+    border-radius: 10px;
+    padding: 5px;
+}
+
+.ubicacion {
+    display: flex;
+    justify-content: center;
 }

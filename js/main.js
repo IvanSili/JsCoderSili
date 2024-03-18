@@ -1,77 +1,156 @@
-//Delivery de pizza
+const pizzas = [
+    {
+        imagen: "../media/muzzarella.png",
+        nombre: "muzzarella",
+        precio: 5000,
+        id: 1,
+    },
+    {
+        imagen: "../media/napolitana.png",
+        nombre: "napolitana",
+        precio: 5200,
+        id: 2,
+    },
+    {
+        imagen: "../media/cebolla.png",
+        nombre: "cebolla",
+        precio: 5100,
+        id: 3
+    },
+    {
+        imagen: "../media/jamon.png",
+        nombre: "Jamon",
+        precio: 5500,
+        id: 4
+    },
+    {
+        imagen: "../media/especial.png",
+        nombre: "Especial",
+        precio: 5900,
+        id: 5
+    },
+    {
+        imagen: "../media/rucula.png",
+        nombre: "Rucula",
+        precio: 6200,
+        id: 6,
+    },
+    {
+        imagen: "../media/cantimpalo.png",
+        nombre: "Cantimpalo",
+        precio: 5800,
+        id: 7,
+    },
+    {
+        imagen: "../media/palmitos.png",
+        nombre: "Palmitos",
+        precio: 6500,
+        id: 8
+    },
+]
 
+let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+const moneda = '$';
+const productos = document.querySelector('#productos');
+const compra = document.querySelector('#carrito');
+const total = document.querySelector('#total');
+const btnVaciar = document.querySelector('#boton-vaciar');
 
-alert("Bienvenido a pizzeria 'Pepito'.");
-
-//funcion para que en el inicio solicite el nombre:
-
-function solicitarNombre() {
-    let nombre;
-    //3 intentos 
-    for (let i = 0; i <= 2; i++) {
-        nombre = prompt("Ingresa tu nombre:");
-        if (nombre !== "") {
-            alert("Hola " + nombre + ", ¿que pizza vas a pedir?");
-            return nombre;
-        } else {
-            alert("Ingrese un nombre.");
-        }
-    }
-    return false // Si el usuario no ingresa un nombre válido después de 3 intentos.
+//Crea la estructura html para mostrar los productos disponibles en la pagina
+function mostrarProductos() {
+    let productosHTML = '';
+    pizzas.forEach(pizza => {
+        productosHTML += `
+            <div class="col-sm-3 productos">
+                <div class="card">
+                    <img class="card-img-top" src="${pizza.imagen}" alt="${pizza.nombre}">
+                    <h5 class="card-title text-center">${pizza.nombre}</h5>
+                    <p class="card-text text-center">${pizza.precio}${moneda}</p>
+                    <button class="btn btn-primary" marcador="${pizza.id}" onclick="agregarCarrito(event)">Agrega al carrito</button>
+                </div>
+            </div>
+        `;
+    });
+    productos.innerHTML = productosHTML;
 }
 
-function menuPizza() {
-    let total = 0;
-    let respuesta;
+//funcion para agregar el producto deseado al carrito
+function agregarCarrito(e) {
+    carrito.push(e.target.getAttribute('marcador'))
+    actualizarCarrito();
+    guadarLS();
+}
 
-    //Incluyo un array que contenga las pizzas (Como el de los tikets 3d que dio el ejemplo en clase 8):
-    const saboresPizza = [
-        {id:"1", nombre: "Muzzarela", precio:"5000"},
-        {id:"2", nombre: "Napolitana", precio:"5300"},
-        {id:"3", nombre: "Rucula", precio:"5500"},
-        {id:"4", nombre: "Especial", precio:"5500"},
-        {id:"5", nombre: "Cantimpalo", precio:"5700"},
-        {id:"6", nombre: "Fugazzeta", precio:"5200"},
-        {id:"7", nombre: "Palmitos", precio:"6000"},
-        {id:"8", nombre: "Anana", precio:"6500"},
-        {id:"9", nombre: "Jamon", precio:"5400"},
-        {id:"10", nombre: "Cuatro Quesos", precio:"5900"},
-    ];
-
-    //Crear un do while para un menu donde el usuario conteste y luego verifique la respuesta del usuario.
-do {
-        let seleccionPizza = "Elija su pizza:\n";
-
-        saboresPizza.forEach(sabor => {
-            seleccionPizza += sabor.id + "-" + sabor.nombre + " $" + sabor.precio +"\n";
+//actualiza la visualizacion del carrito con los productos seleccionados.
+function actualizarCarrito() {
+    compra.textContent = '';
+    // Obtener elementos únicos del carrito para evitar duplicados
+    const elementoUnico = [...new Set(carrito)];
+    // Filtrar la pizza correspondiente al item del carrito
+    elementoUnico.forEach((item) => {
+        const pizza = pizzas.filter((elementoPizza) => {
+            return elementoPizza.id === parseInt(item);
         });
-        seleccionPizza += "Para finalizar, presione Y.";
+        // Contador de los productos para mostrar la cantidad en el carrito
+        const contador = carrito.reduce((total, itemId) => {
+            return itemId === item ? total += 1 : total;
+        }, 0);
+        // Creo la lista que contiene las pizzas seleccionadas
+        const lista = document.createElement('li');
+        lista.classList.add('list-group-item', 'text-right', 'mx-2');
+        lista.textContent = `${contador} x ${pizza[0].nombre} - ${moneda} ${pizza[0].precio}`;
+        // // Crear botón de borrar para eliminar el item del carrito
+        const boton = document.createElement('button');
+        boton.classList.add('btn', 'btn-danger', 'mx-5');
+        boton.textContent = 'X';
+        boton.style.marginLeft = '2rem';
+        boton.dataset.item = item;
+        boton.addEventListener('click', borrarItemCarrito);
+        // Agregar el botón de borrar a la lista de items
+        lista.appendChild(boton);
+        // Agregar la lista al contenedor de compras
+        compra.appendChild(lista);
+    });
 
-        let respuesta = prompt(seleccionPizza);
-        //solucion que encontre para que cuando apreten enter en un prompt vacio o en un numero mayor a 10 no me cierre el bucle.
-        if (respuesta == false || respuesta > 10) {
-            alert("Por favor, seleccione una opción válida.");
-            continue;
-        }
-
-        if (respuesta >= 1 && respuesta <= saboresPizza.length) {
-            let i = parseInt(respuesta) - 1; //como los arrays arranca en 0 le resto 1 para que sea la opcion seleccionada por el usuario
-
-            total += parseInt(saboresPizza[i].precio);
-            alert( "Elegiste una pizza de " + saboresPizza[i].nombre + " que sale $" + saboresPizza[i].precio + " si deseas puedes seleccionar otra luego de apretar aceptar.");
-        } else if (respuesta !== "y" || respuesta !== "Y") {
-            alert("Gracias por tu pedido. El total es: " + total + ". ¡Está en camino!");
-            breack;
-        } else {
-            alert("Por favor, seleccione una opción válida.");
-        }
-    } while (respuesta !== "y" || respuesta !== "Y");
+    total.textContent = totalCompra();
 }
 
-//llamar a las funciones
-let nombreCliente = solicitarNombre();
-if (nombreCliente != false) {
-    menuPizza();
-} else {
-    alert("Por favor, intenta más tarde.");
+//elimina un producto cuando hace click en el boton de eliminar
+function borrarItemCarrito(e) {
+    const id = e.target.dataset.item;
+    carrito = carrito.filter((carritoId) => {
+        return carritoId !== id;
+    });
+    actualizarCarrito();
+    guadarLS()
 }
+
+// Calcula el total de la compra sumando los precios de los productos en el carrito
+function totalCompra() {
+    return carrito.reduce((total, item) => {
+        const miItem = pizzas.filter((itemBaseDatos) => {
+            return itemBaseDatos.id === parseInt(item);
+        });
+        //suma al total
+        return total + miItem[0].precio;
+    }, 0).toFixed(2);
+}
+
+//eliminar productos que estaban guardados
+function vaciarCarrito() {
+    carrito = [];
+    actualizarCarrito();
+    guadarLS()
+}
+
+// Escucha el clic en el botón para vaciar el carrito
+btnVaciar.addEventListener('click', vaciarCarrito);
+
+// Guarda el estado actual del carrito en el almacenamiento local del navegador
+const guadarLS = () => {
+    localStorage.setItem("carrito", JSON.stringify(carrito));
+}
+
+
+mostrarProductos();
+actualizarCarrito()
