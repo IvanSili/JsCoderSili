@@ -17,7 +17,7 @@ header {
     margin: 30px 0px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-around;
     padding: 15px;
 
 }
@@ -28,27 +28,11 @@ header {
     border-radius: 100%;
 }
 
-.carrito {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #EFD4B6;
-    padding: 7px 10px;
-    border-radius: 5px;
-    width: 80px;
-}
-
-.carrito img {
-    height: 30px;
-    width: 30px;
-}
-
-.carrito p {
-    width: 22px;
-    height: 22px;
-    display: flex;
-    text-align: center;
-    justify-content: center;
+.titulo1 {
+    color: #E9CDAE;
+    font-family:'Times New Roman', Times, serif;
+    text-shadow: -3px 2px 5px rgba(0,0,0,0.6);
+    font-style: italic;
 }
 
 /*------BODY------*/

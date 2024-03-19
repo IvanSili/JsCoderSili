@@ -1,48 +1,48 @@
 const pizzas = [
     {
-        imagen: "../media/muzzarella.png",
+        imagen: "./media/muzzarella.png",
         nombre: "muzzarella",
         precio: 5000,
         id: 1,
     },
     {
-        imagen: "../media/napolitana.png",
+        imagen: "./media/napolitana.png",
         nombre: "napolitana",
         precio: 5200,
         id: 2,
     },
     {
-        imagen: "../media/cebolla.png",
+        imagen: "./media/cebolla.png",
         nombre: "cebolla",
         precio: 5100,
         id: 3
     },
     {
-        imagen: "../media/jamon.png",
+        imagen: "./media/jamon.png",
         nombre: "Jamon",
         precio: 5500,
         id: 4
     },
     {
-        imagen: "../media/especial.png",
+        imagen: "./media/especial.png",
         nombre: "Especial",
         precio: 5900,
         id: 5
     },
     {
-        imagen: "../media/rucula.png",
+        imagen: "./media/rucula.png",
         nombre: "Rucula",
         precio: 6200,
         id: 6,
     },
     {
-        imagen: "../media/cantimpalo.png",
+        imagen: "./media/cantimpalo.png",
         nombre: "Cantimpalo",
         precio: 5800,
         id: 7,
     },
     {
-        imagen: "../media/palmitos.png",
+        imagen: "./media/palmitos.png",
         nombre: "Palmitos",
         precio: 6500,
         id: 8
@@ -65,7 +65,7 @@ function mostrarProductos() {
                 <div class="card">
                     <img class="card-img-top" src="${pizza.imagen}">
                     <h5 class="card-title text-center">${pizza.nombre}</h5>
-                    <p class="card-text text-center">${pizza.precio}${moneda}</p>
+                    <p class="card-text text-center">${moneda}${pizza.precio}</p>
                     <button class="btn btn-primary" marcador="${pizza.id}" onclick="agregarCarrito(event)">Agrega al carrito</button>
                 </div>
             </div>
@@ -102,7 +102,7 @@ function actualizarCarrito() {
         // // Crear botón de borrar para eliminar el item del carrito
         const boton = document.createElement('button');
         boton.classList.add('btn', 'btn-danger', 'mx-5');
-        boton.textContent = 'X';
+        boton.textContent = '❌';
         boton.style.marginLeft = '2rem';
         boton.dataset.item = item;
         boton.addEventListener('click', borrarItemCarrito);
@@ -136,8 +136,9 @@ function totalCompra() {
     }, 0).toFixed(2);
 }
 
-//eliminar productos que estaban guardados
+//elimina el carrito dando a enteder que finalizo la compra
 function vaciarCarrito() {
+    carrito != "" ? alert("¡Su pedido esta en camino 🛵!") : alert("Su carrito de compra esta vacio ☹");
     carrito = [];
     actualizarCarrito();
     guadarLS()
