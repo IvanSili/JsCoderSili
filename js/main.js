@@ -63,7 +63,7 @@ function mostrarProductos() {
         productosHTML += `
             <div class="col-sm-3 productos">
                 <div class="card">
-                    <img class="card-img-top" src="${pizza.imagen}" alt="${pizza.nombre}">
+                    <img class="card-img-top" src="${pizza.imagen}">
                     <h5 class="card-title text-center">${pizza.nombre}</h5>
                     <p class="card-text text-center">${moneda}${pizza.precio}</p>
                     <button class="btn btn-primary" marcador="${pizza.id}" onclick="agregarCarrito(event)">Agrega al carrito</button>
