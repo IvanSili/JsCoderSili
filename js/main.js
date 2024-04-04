@@ -1,157 +1,73 @@
-const pizzas = [
-    {
-        imagen: "./media/muzzarella.png",
-        nombre: "Muzzarella",
-        precio: 5000,
-        id: 1,
-    },
-    {
-        imagen: "./media/napolitana.png",
-        nombre: "Napolitana",
-        precio: 5200,
-        id: 2,
-    },
-    {
-        imagen: "./media/cebolla.png",
-        nombre: "Cebolla",
-        precio: 5100,
-        id: 3
-    },
-    {
-        imagen: "./media/jamon.png",
-        nombre: "Jamon",
-        precio: 5500,
-        id: 4
-    },
-    {
-        imagen: "./media/especial.png",
-        nombre: "Especial",
-        precio: 5900,
-        id: 5
-    },
-    {
-        imagen: "./media/rucula.png",
-        nombre: "Rucula",
-        precio: 6200,
-        id: 6,
-    },
-    {
-        imagen: "./media/cantimpalo.png",
-        nombre: "Cantimpalo",
-        precio: 5800,
-        id: 7,
-    },
-    {
-        imagen: "./media/palmitos.png",
-        nombre: "Palmitos",
-        precio: 6500,
-        id: 8
-    },
-]
+// formulario
+document.body.innerHTML = `
+<div class="loginBox">
+<div class="logoLogin">
+<img src="./media/logoPizzeria.png" alt="logo de la pizzeria">
+</div>
+<div class="pantallaDatos">
+<div class="tituloLogin">
+<h1>Ingrese sus datos:</h1>
+</div>
+<div class="inputs">
+<form id="formulario" method="post">
+    <input type="text" name="nombre" placeholder="Nombre">
+    <input type="email" name="email" placeholder="Correo electrónico">
+    <input type="text" name="direccion" placeholder="Dirección">
+    <input type="tel" name="celular" placeholder="Número de celular">
+    <input type="tel" name="celularDos" placeholder="Confirme su celular">
+    <button type="submit">Ingresar</button>
+</form>
+</div>
+</div>
+</div>
+`;
 
-let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
-const moneda = '$';
-const productos = document.querySelector('#productos');
-const compra = document.querySelector('#carrito');
-const total = document.querySelector('#total');
-const btnVaciar = document.querySelector('#boton-vaciar');
+document.getElementById('formulario').addEventListener('submit', function (event) {
+    event.preventDefault(); // Evitar que se envíe el formulario
 
-//Crea la estructura html para mostrar los productos disponibles en la pagina
-function mostrarProductos() {
-    let productosHTML = '';
-    pizzas.forEach(pizza => {
-        productosHTML += `
-            <div class="col-sm-3 productos">
-                <div class="card">
-                    <img class="card-img-top" src="${pizza.imagen}">
-                    <h5 class="card-title text-center">${pizza.nombre}</h5>
-                    <p class="card-text text-center">${moneda}${pizza.precio}</p>
-                    <button class="btn btn-primary" marcador="${pizza.id}" onclick="agregarCarrito(event)">Agrega al carrito</button>
-                </div>
-            </div>
-        `;
+    const nombre = document.getElementsByName('nombre')[0].value;
+    const email = document.getElementsByName('email')[0].value;
+    const celular = document.getElementsByName('celular')[0].value;
+    const celularDos = document.getElementsByName('celularDos')[0].value;
+    const direccion = document.getElementsByName('direccion')[0].value;
+
+    if (nombre && email && direccion && celular == celularDos) { // Verificar que todos los campos estén completos
+        const userData = {
+            nombre: nombre,
+            email: email,
+            celular: celular,
+            celularDos: celularDos,
+            direccion: direccion
+        };
+
+        localStorage.setItem('userData', JSON.stringify(userData));
+
+        redireccionar();
+
+        // Redirigir a otra página
+        setTimeout(function() {
+			window.location.href = 'menu.html';
+		}, 3000); 
+	
+    } else {
+        completarDatos();
+    }
+});
+
+
+//Alertas de ingreso y error
+function redireccionar() {
+    Swal.fire({
+        title: "¡Bienvenido!",
+        text: "Te mandaremos al menu para que puedas seleccionar tu pedido",
+        icon: "success"
     });
-    productos.innerHTML = productosHTML;
 }
 
-//funcion para agregar el producto deseado al carrito
-function agregarCarrito(e) {
-    carrito.push(e.target.getAttribute('marcador'))
-    actualizarCarrito();
-    guadarLS();
-}
-
-//actualiza la visualizacion del carrito con los productos seleccionados.
-function actualizarCarrito() {
-    compra.textContent = '';
-    // Obtener elementos únicos del carrito para evitar duplicados
-    const elementoUnico = [...new Set(carrito)];
-    // Filtrar la pizza correspondiente al item del carrito
-    elementoUnico.forEach((item) => {
-        const pizza = pizzas.filter((elementoPizza) => {
-            return elementoPizza.id === parseInt(item);
-        });
-        // Contador de los productos para mostrar la cantidad en el carrito
-        const contador = carrito.reduce((total, itemId) => {
-            return itemId === item ? total += 1 : total;
-        }, 0);
-        // Creo la lista que contiene las pizzas seleccionadas
-        const lista = document.createElement('li');
-        lista.classList.add('list-group-item', 'text-right', 'mx-2');
-        lista.textContent = `${contador} x ${pizza[0].nombre} - ${moneda} ${pizza[0].precio}`;
-        // // Crear botón de borrar para eliminar el item del carrito
-        const boton = document.createElement('button');
-        boton.classList.add('btn', 'btn-danger', 'mx-5');
-        boton.textContent = '❌';
-        boton.style.marginLeft = '2rem';
-        boton.dataset.item = item;
-        boton.addEventListener('click', borrarItemCarrito);
-        // Agregar el botón de borrar a la lista de items
-        lista.appendChild(boton);
-        // Agregar la lista al contenedor de compras
-        compra.appendChild(lista);
+function completarDatos() {
+    Swal.fire({
+        title: "¡Revisa tus datos!",
+        text: "Debes llenar todos los campos y tus números de telefono deben coincidir.",
+        icon: "warning"
     });
-
-    total.textContent = totalCompra();
 }
-
-//elimina un producto cuando hace click en el boton de eliminar
-function borrarItemCarrito(e) {
-    const id = e.target.dataset.item;
-    carrito = carrito.filter((carritoId) => {
-        return carritoId !== id;
-    });
-    actualizarCarrito();
-    guadarLS()
-}
-
-// Calcula el total de la compra sumando los precios de los productos en el carrito
-function totalCompra() {
-    return carrito.reduce((total, item) => {
-        const miItem = pizzas.filter((itemBaseDatos) => {
-            return itemBaseDatos.id === parseInt(item);
-        });
-        //suma al total
-        return total + miItem[0].precio;
-    }, 0).toFixed(2);
-}
-
-//elimina el carrito dando a enteder que finalizo la compra
-function vaciarCarrito() {
-    carrito != "" ? alert("¡Su pedido esta en camino 🛵!") : alert("Su carrito de compra esta vacio ☹");
-    carrito = [];
-    actualizarCarrito();
-    guadarLS()
-}
-
-// Escucha el clic en el botón para vaciar el carrito
-btnVaciar.addEventListener('click', vaciarCarrito);
-
-// Guarda el estado actual del carrito en el almacenamiento local del navegador
-const guadarLS = () => {
-    localStorage.setItem("carrito", JSON.stringify(carrito));
-}
-
-
-mostrarProductos();
-actualizarCarrito()

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="author" content="Matias Ivan Sili">
-    <title> Ingreso | Pizzeria "Pepito" </title>
+    <title>Pizzeria "Pepito" </title>
     <!--Icono pestaña del navegador-->
     <link rel="icon" href="media/iconoPizza.ICO">
     <!--Link de Bootstrap-->
@@ -18,14 +18,31 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins&family=Roboto:wght@300&display=swap" rel="stylesheet">
 
 </head>
+
 <body>
     <header>
-
+        <a href="#"><img src="./media/logoPizzeria.png" alt="Logo de la pizzeria" class="logo"></a>
+        <input type="search" placeholder="Buscar" class="filtro">
+        <h1 class="titulo1">Pizzeria "Pepito"</h1>
     </header>
     <main>
+        <div class="ubicacion">
+            <aside class="col-sm-4">
+                <h2 class="color-texto">Carrito</h2>
+                <!-- Elementos del carrito -->
+                <ul id="carrito" class="list-group"></ul>
+                <hr>
+                <!-- Precio total -->
+                <p class="text-right">Total: &dollar; <span id="total"></span></p>
+                <button id="boton-vaciar" class="btn btn-danger">Comprar</button>
+            </aside>
+        </div>
+        <section class="contenedor">
+            <div class="productos" id="productos">
+            </div>
+        </section>
     </main>
     <footer>
-        
     </footer>
     <!--Link de Bootstrap JS-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
@@ -34,6 +51,6 @@
     <!--Link de Sweet Alert-->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!--Link de Java Script-->
-    <script src="./js/main.js"></script>
+    <script src="./js/menu.js"></script>
 </body>
 </html>
