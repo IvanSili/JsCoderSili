@@ -47,7 +47,7 @@ document.getElementById('formulario').addEventListener('submit', function (event
         // Redirigir a otra página
         setTimeout(function() {
 			window.location.href = 'menu.html';
-		}, 3000); 
+		}, 2000); 
 	
     } else {
         completarDatos();
